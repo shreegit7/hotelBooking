@@ -1,0 +1,82 @@
+/* Home Page - Modern Warm Theme */
+
+.home-page {
+  min-height: calc(100vh - 80px);
+}
+
+.welcome-banner {
+  background: linear-gradient(135deg, #FF6B35 0%, #FFB400 100%);
+  color: white;
+  padding: 6rem 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+}
+
+.banner-content {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.banner-title {
+  font-size: 36px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.banner-subtitle {
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  opacity: 0.95;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.banner-button {
+  display: inline-block;
+  background-color: #FFFFFF;
+  color: #FF6B35;
+  padding: 16px 40px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.banner-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  background-color: #FFF5F2;
+}
+
+@media (max-width: 768px) {
+  .welcome-banner {
+    padding: 4rem 20px;
+  }
+  
+  .banner-title {
+    font-size: 28px;
+  }
+  
+  .banner-subtitle {
+    font-size: 18px;
+  }
+  
+  .banner-button {
+    padding: 14px 32px;
+    font-size: 16px;
+  }
+}
+

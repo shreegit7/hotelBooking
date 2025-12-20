@@ -1,0 +1,128 @@
+/* Rating List Component - Modern Warm Theme */
+
+.rating-list-container {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rating-list-title {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #333333;
+  margin: 0 0 1.5rem 0;
+}
+
+.rating-list-empty {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #666666;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ratings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.rating-item {
+  padding: 1.5rem;
+  background-color: #FFF5F2;
+  border-radius: 8px;
+  border-left: 4px solid #FF6B35;
+  transition: all 0.3s ease;
+}
+
+.rating-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.rating-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.rating-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rating-user-name {
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #333333;
+  font-size: 18px;
+}
+
+.rating-stars-display {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.rating-star {
+  font-size: 1.2rem;
+  filter: grayscale(100%);
+  opacity: 0.3;
+  color: #FFB400;
+}
+
+.rating-star.filled {
+  filter: grayscale(0%);
+  opacity: 1;
+  color: #FFB400;
+}
+
+.rating-number {
+  margin-left: 0.5rem;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  color: #FF6B35;
+  font-size: 16px;
+}
+
+.rating-date {
+  color: #666666;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.rating-comment {
+  color: #333333;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .rating-list-container {
+    padding: 20px;
+  }
+  
+  .rating-item {
+    padding: 1rem;
+  }
+  
+  .rating-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .rating-date {
+    font-size: 12px;
+  }
+}

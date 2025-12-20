@@ -1,0 +1,33 @@
+/* Error Message Component - Modern Warm Theme */
+
+.error-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  gap: 1rem;
+}
+
+.error-icon {
+  font-size: 4rem;
+  color: #FF6B35;
+}
+
+.error-title {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: #333333;
+  margin: 0;
+}
+
+.error-text {
+  color: #666666;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  max-width: 500px;
+  margin: 0;
+}
+

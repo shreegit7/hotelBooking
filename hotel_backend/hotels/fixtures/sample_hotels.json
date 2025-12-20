@@ -1,0 +1,133 @@
+[
+  {
+    "model": "hotels.hotel",
+    "pk": 1,
+    "fields": {
+      "name": "Grand Plaza Hotel",
+      "location": "New York, USA",
+      "price": "250.00",
+      "rating": "4.5",
+      "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+      "description": "Luxurious hotel in the heart of Manhattan with stunning city views. Perfect for business travelers and tourists alike.",
+      "amenities": ["WiFi", "Pool", "Gym", "Spa", "Restaurant", "Room Service"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 2,
+    "fields": {
+      "name": "Oceanview Resort",
+      "location": "Miami Beach, USA",
+      "price": "320.00",
+      "rating": "4.8",
+      "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
+      "description": "Beachfront resort with private beach access, infinity pool, and world-class dining. Experience luxury by the ocean.",
+      "amenities": ["WiFi", "Pool", "Beach Access", "Spa", "Restaurant", "Bar", "Parking"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 3,
+    "fields": {
+      "name": "Mountain Lodge",
+      "location": "Aspen, Colorado",
+      "price": "180.00",
+      "rating": "4.2",
+      "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+      "description": "Cozy mountain retreat with breathtaking views. Perfect for skiing enthusiasts and nature lovers.",
+      "amenities": ["WiFi", "Fireplace", "Ski Storage", "Restaurant", "Parking"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 4,
+    "fields": {
+      "name": "City Center Inn",
+      "location": "Chicago, USA",
+      "price": "120.00",
+      "rating": "3.8",
+      "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+      "description": "Affordable downtown hotel with easy access to shopping, dining, and entertainment. Great value for money.",
+      "amenities": ["WiFi", "Gym", "Restaurant", "Parking"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 5,
+    "fields": {
+      "name": "Royal Palace Hotel",
+      "location": "London, UK",
+      "price": "280.00",
+      "rating": "4.7",
+      "image": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800",
+      "description": "Elegant hotel in the heart of London with classic British charm. Close to major attractions and shopping districts.",
+      "amenities": ["WiFi", "Gym", "Spa", "Restaurant", "Bar", "Concierge", "Room Service"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 6,
+    "fields": {
+      "name": "Sunset Beach Resort",
+      "location": "Cancun, Mexico",
+      "price": "220.00",
+      "rating": "4.6",
+      "image": "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+      "description": "All-inclusive beachfront resort with multiple pools, water sports, and tropical paradise atmosphere.",
+      "amenities": ["WiFi", "Pool", "Beach Access", "Spa", "Restaurant", "Bar", "Water Sports", "Entertainment"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 7,
+    "fields": {
+      "name": "Business Tower Hotel",
+      "location": "Tokyo, Japan",
+      "price": "200.00",
+      "rating": "4.4",
+      "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
+      "description": "Modern business hotel in Tokyo's financial district. Equipped with meeting rooms and business center.",
+      "amenities": ["WiFi", "Gym", "Business Center", "Restaurant", "Room Service", "Concierge"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 8,
+    "fields": {
+      "name": "Garden Paradise Hotel",
+      "location": "Bali, Indonesia",
+      "price": "150.00",
+      "rating": "4.3",
+      "image": "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800",
+      "description": "Tropical paradise with lush gardens, traditional architecture, and authentic Balinese hospitality.",
+      "amenities": ["WiFi", "Pool", "Spa", "Restaurant", "Garden", "Cultural Tours"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 9,
+    "fields": {
+      "name": "Historic Grand Hotel",
+      "location": "Paris, France",
+      "price": "300.00",
+      "rating": "4.9",
+      "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
+      "description": "Iconic historic hotel near the Eiffel Tower. Experience Parisian elegance and world-renowned service.",
+      "amenities": ["WiFi", "Gym", "Spa", "Fine Dining", "Bar", "Concierge", "Valet Parking", "Room Service"]
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 10,
+    "fields": {
+      "name": "Desert Oasis Resort",
+      "location": "Dubai, UAE",
+      "price": "350.00",
+      "rating": "4.8",
+      "image": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800",
+      "description": "Ultra-luxurious resort with private villas, world-class amenities, and stunning desert views.",
+      "amenities": ["WiFi", "Pool", "Private Villa", "Spa", "Fine Dining", "Helipad", "Concierge", "Butler Service"]
+    }
+  }
+]
+
