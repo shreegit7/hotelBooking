@@ -3,6 +3,8 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import HotelsList from './pages/HotelsList'
 import HotelDetails from './pages/HotelDetails'
+import HotelLogin from './pages/HotelLogin'
+import HotelDashboard from './pages/HotelDashboard'
 import './styles.css'
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/hotels" element={<HotelsList />} />
             <Route path="/hotels/:id" element={<HotelDetails />} />
+            <Route path="/hotel/login" element={<HotelLogin />} />
+            <Route path="/hotel/dashboard" element={<HotelDashboard />} />
           </Routes>
         </main>
       </div>

@@ -48,7 +48,7 @@ class BookingSerializer(serializers.ModelSerializer):
             'check_in', 'check_out', 'num_guests', 'total_price',
             'booking_reference', 'status', 'created_at'
         ]
-        read_only_fields = ['id', 'booking_reference', 'created_at', 'status']
+        read_only_fields = ['id', 'hotel', 'booking_reference', 'created_at', 'status']
     
     def validate(self, data):
         """Validate booking dates."""

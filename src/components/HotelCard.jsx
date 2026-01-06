@@ -27,7 +27,7 @@ function HotelCard({ hotel }) {
             )}
           </div>
           <div className="hotel-card-price">
-            <span className="price-amount">${parseFloat(hotel.price).toFixed(2)}</span>
+            <span className="price-amount">Rs. {parseFloat(hotel.price).toFixed(2)}</span>
             <span className="price-label">/night</span>
           </div>
         </div>

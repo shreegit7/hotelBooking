@@ -1,10 +1,12 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
 
 
 class Hotel(models.Model):
     """Hotel model for storing hotel information."""
     
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='hotel', null=True, blank=True, help_text="User account for hotel login")
     name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -18,6 +20,10 @@ class Hotel(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def has_active_bookings(self):
+        """Check if hotel has any active (pending or confirmed) bookings."""
+        return self.bookings.filter(status__in=['pending', 'confirmed']).exists()
 
 
 class Rating(models.Model):
@@ -60,8 +66,9 @@ class Booking(models.Model):
             ('pending', 'Pending'),
             ('confirmed', 'Confirmed'),
             ('cancelled', 'Cancelled'),
+            ('declined', 'Declined'),
         ],
-        default='confirmed'
+        default='pending'  # Changed to pending - hotels need to approve
     )
     
     class Meta:

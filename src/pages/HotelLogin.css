@@ -1,0 +1,130 @@
+.hotel-login-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #FF6B35 0%, #FFB400 100%);
+}
+
+.hotel-login-container {
+  width: 100%;
+  max-width: 450px;
+}
+
+.hotel-login-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-login-title {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  color: #333333;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.hotel-login-subtitle {
+  color: #666666;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+.hotel-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  color: #333333;
+  font-size: 0.9rem;
+}
+
+.form-input {
+  padding: 12px;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  background-color: #FFFFFF;
+  color: #333333;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #FF6B35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  background-color: #FFF5F2;
+}
+
+.form-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.hotel-login-button {
+  padding: 16px 32px;
+  background-color: #FF6B35;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.hotel-login-button:hover:not(:disabled) {
+  background-color: #FF5722;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+.hotel-login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.hotel-login-note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #FFF5F2;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: 'Roboto', sans-serif;
+  color: #666666;
+  text-align: center;
+  line-height: 1.5;
+  border-left: 3px solid #FF6B35;
+}
+
+@media (max-width: 768px) {
+  .hotel-login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .hotel-login-title {
+    font-size: 1.75rem;
+  }
+}
+

@@ -105,7 +105,7 @@ function HotelDetails() {
 
           <div className="hotel-details-price-section">
             <div className="price-display">
-              <span className="price-amount-large">${parseFloat(hotel.price).toFixed(2)}</span>
+              <span className="price-amount-large">Rs. {parseFloat(hotel.price).toFixed(2)}</span>
               <span className="price-label-large">per night</span>
             </div>
             <button 

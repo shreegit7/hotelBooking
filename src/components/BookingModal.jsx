@@ -108,7 +108,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
             <div className="booking-modal-content">
               <div className="booking-hotel-info">
                 <p className="booking-hotel-location">📍 {hotel?.location}</p>
-                <p className="booking-hotel-price">${parseFloat(hotel?.price || 0).toFixed(2)} per night</p>
+                <p className="booking-hotel-price">Rs. {parseFloat(hotel?.price || 0).toFixed(2)} per night</p>
               </div>
 
               <form onSubmit={handleSubmit} className="booking-form">
@@ -201,7 +201,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
                   <div className="booking-summary">
                     <div className="booking-summary-row">
                       <span>Price per night:</span>
-                      <span>${parseFloat(hotel?.price || 0).toFixed(2)}</span>
+                      <span>Rs. {parseFloat(hotel?.price || 0).toFixed(2)}</span>
                     </div>
                     <div className="booking-summary-row">
                       <span>Number of nights:</span>
@@ -209,7 +209,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
                     </div>
                     <div className="booking-summary-total">
                       <span>Total Price:</span>
-                      <span>${total}</span>
+                      <span>Rs. {total}</span>
                     </div>
                   </div>
                 )}
@@ -261,12 +261,27 @@ function BookingModal({ hotel, isOpen, onClose }) {
               </div>
               <div className="confirmation-row total-row">
                 <span className="confirmation-label">Total Amount:</span>
-                <span className="confirmation-value">${parseFloat(booking.total_price).toFixed(2)}</span>
+                <span className="confirmation-value">Rs. {parseFloat(booking.total_price).toFixed(2)}</span>
               </div>
             </div>
-            <p className="booking-confirmation-message">
-              A confirmation email has been sent to {booking.guest_email}
-            </p>
+            <div className="booking-status-info">
+              <p className="booking-status-badge" data-status={booking.status}>
+                Status: {booking.status === 'pending' ? 'Pending Approval' : 
+                         booking.status === 'confirmed' ? 'Confirmed' : 
+                         booking.status === 'declined' ? 'Declined' : booking.status}
+              </p>
+              {booking.status === 'pending' && (
+                <p className="booking-confirmation-message">
+                  Your booking request has been submitted and is pending hotel approval. 
+                  You will receive an email at {booking.guest_email} once the hotel responds.
+                </p>
+              )}
+              {booking.status === 'confirmed' && (
+                <p className="booking-confirmation-message">
+                  A confirmation email has been sent to {booking.guest_email}
+                </p>
+              )}
+            </div>
             <button className="close-booking-button" onClick={handleClose}>
               Close
             </button>

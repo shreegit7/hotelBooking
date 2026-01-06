@@ -180,3 +180,209 @@ export const submitBooking = async (hotelId, bookingData) => {
   }
 }
 
+/**
+ * Hotel login
+ * @param {string} username - Hotel username
+ * @param {string} password - Hotel password
+ * @returns {Promise} Promise that resolves to {token, hotel_id, hotel_name, username}
+ */
+export const hotelLogin = async (username, password) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/login/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+    
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+    }
+    
+    const data = await response.json()
+    // Store token in localStorage
+    localStorage.setItem('hotel_token', data.token)
+    localStorage.setItem('hotel_id', data.hotel_id)
+    localStorage.setItem('hotel_name', data.hotel_name)
+    localStorage.setItem('hotel_username', data.username)
+    
+    return data
+  } catch (error) {
+    console.error('Error logging in:', error)
+    throw error
+  }
+}
+
+/**
+ * Hotel logout
+ * @returns {Promise} Promise that resolves when logged out
+ */
+export const hotelLogout = async () => {
+  try {
+    const token = localStorage.getItem('hotel_token')
+    if (token) {
+      await fetch(`${API_BASE_URL}/auth/logout/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+    }
+  } catch (error) {
+    console.error('Error logging out:', error)
+  } finally {
+    // Clear localStorage regardless of API call success
+    localStorage.removeItem('hotel_token')
+    localStorage.removeItem('hotel_id')
+    localStorage.removeItem('hotel_name')
+    localStorage.removeItem('hotel_username')
+  }
+}
+
+/**
+ * Get hotel profile (authenticated)
+ * @returns {Promise} Promise that resolves to hotel object
+ */
+export const getHotelProfile = async () => {
+  try {
+    const token = localStorage.getItem('hotel_token')
+    if (!token) {
+      throw new Error('Not authenticated')
+    }
+    
+    const response = await fetch(`${API_BASE_URL}/auth/profile/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    
+    if (!response.ok) {
+      if (response.status === 401) {
+        // Token expired or invalid
+        hotelLogout()
+        throw new Error('Session expired. Please login again.')
+      }
+      const errorData = await response.json()
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+    }
+    
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching hotel profile:', error)
+    throw error
+  }
+}
+
+/**
+ * Fetch bookings for authenticated hotel
+ * @returns {Promise} Promise that resolves to bookings array
+ */
+export const fetchHotelBookings = async () => {
+  try {
+    const token = localStorage.getItem('hotel_token')
+    if (!token) {
+      throw new Error('Not authenticated')
+    }
+    
+    const response = await fetch(`${API_BASE_URL}/bookings/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    
+    if (!response.ok) {
+      if (response.status === 401) {
+        hotelLogout()
+        throw new Error('Session expired. Please login again.')
+      }
+      const errorData = await response.json()
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+    }
+    
+    const data = await response.json()
+    return Array.isArray(data) ? data : (data.results || [])
+  } catch (error) {
+    console.error('Error fetching bookings:', error)
+    throw error
+  }
+}
+
+/**
+ * Approve a booking
+ * @param {number|string} bookingId - Booking ID
+ * @returns {Promise} Promise that resolves to updated booking object
+ */
+export const approveBooking = async (bookingId) => {
+  try {
+    const token = localStorage.getItem('hotel_token')
+    if (!token) {
+      throw new Error('Not authenticated')
+    }
+    
+    const response = await fetch(`${API_BASE_URL}/bookings/${bookingId}/approve/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    
+    if (!response.ok) {
+      if (response.status === 401) {
+        hotelLogout()
+        throw new Error('Session expired. Please login again.')
+      }
+      const errorData = await response.json()
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+    }
+    
+    return await response.json()
+  } catch (error) {
+    console.error('Error approving booking:', error)
+    throw error
+  }
+}
+
+/**
+ * Decline a booking
+ * @param {number|string} bookingId - Booking ID
+ * @returns {Promise} Promise that resolves to updated booking object
+ */
+export const declineBooking = async (bookingId) => {
+  try {
+    const token = localStorage.getItem('hotel_token')
+    if (!token) {
+      throw new Error('Not authenticated')
+    }
+    
+    const response = await fetch(`${API_BASE_URL}/bookings/${bookingId}/decline/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    
+    if (!response.ok) {
+      if (response.status === 401) {
+        hotelLogout()
+        throw new Error('Session expired. Please login again.')
+      }
+      const errorData = await response.json()
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+    }
+    
+    return await response.json()
+  } catch (error) {
+    console.error('Error declining booking:', error)
+    throw error
+  }
+}
+
