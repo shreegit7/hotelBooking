@@ -60,6 +60,11 @@ function Navbar() {
     navigate('/')
   }
 
+  const handleExplore = () => {
+    setIsMenuOpen(false)
+    navigate('/hotels')
+  }
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -118,7 +123,7 @@ function Navbar() {
             )}
           </div>
           <div className="mobile-menu-cta">
-            <Link to="/hotels" className="menu-cta-button">
+            <Link to="/hotels" className="menu-cta-button" onClick={handleExplore}>
               Explore
             </Link>
           </div>
