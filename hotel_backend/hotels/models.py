@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
+CANCEL_WINDOW_HOURS = 2
+
 
 class Hotel(models.Model):
     """Hotel model for storing hotel information."""
@@ -26,11 +28,31 @@ class Hotel(models.Model):
         return self.bookings.filter(status__in=['pending', 'confirmed']).exists()
 
 
+class HotelImage(models.Model):
+    """Model for storing multiple images for a hotel."""
+    
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='images')
+    image_url = models.URLField(max_length=500, help_text="URL of the hotel image")
+    alt_text = models.CharField(max_length=200, blank=True, null=True, help_text="Alternative text for the image")
+    display_order = models.IntegerField(default=0, help_text="Order in which images should be displayed")
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['display_order', 'created_at']
+        verbose_name = "Hotel Image"
+        verbose_name_plural = "Hotel Images"
+    
+    def __str__(self):
+        return f"Image for {self.hotel.name} (Order: {self.display_order})"
+
+
 class Rating(models.Model):
     """User rating model for hotels."""
     
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='ratings')
     user_name = models.CharField(max_length=100)
+    hotel_reply = models.TextField(blank=True, null=True)
+    replied_at = models.DateTimeField(blank=True, null=True)
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         help_text="Rating from 1 to 5"
@@ -49,6 +71,7 @@ class Booking(models.Model):
     """Booking model for hotel reservations."""
     
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='bookings')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='bookings', null=True, blank=True, help_text="Registered user who made the booking")
     guest_name = models.CharField(max_length=200)
     guest_email = models.EmailField()
     check_in = models.DateField()
@@ -82,6 +105,10 @@ class Booking(models.Model):
             # Generate a unique booking reference
             import random
             import string
-            self.booking_reference = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+            while True:
+                reference = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+                if not Booking.objects.filter(booking_reference=reference).exists():
+                    self.booking_reference = reference
+                    break
         super().save(*args, **kwargs)
 

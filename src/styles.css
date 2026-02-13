@@ -1,76 +1,103 @@
-/* Global Application Styles - Modern Warm Theme */
+﻿/* Global Application Styles - Modern Cool Theme */
 
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #F5F5F5;
+  background-color: transparent;
 }
 
 .main-content {
   flex: 1;
 }
 
-/* Utility Classes */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* Common Button Styles */
 .btn-primary {
-  background-color: #FF6B35;
-  color: #FFFFFF;
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  color: #ffffff;
   border: none;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 16px;
-  font-weight: 500;
-  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  box-shadow: 0 10px 20px rgba(29, 78, 216, 0.18);
 }
 
 .btn-primary:hover {
-  background-color: #FF5722;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 16px 30px rgba(29, 78, 216, 0.26);
+  filter: brightness(1.02);
 }
 
 .btn-primary:active {
   transform: translateY(0);
 }
 
-/* Common Card Styles */
 .card {
-  background-color: #FFFFFF;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-2);
 }
 
-/* Responsive Container */
 @media (max-width: 768px) {
   .container {
     padding: 0 20px;
   }
-  
+
   h1 {
     font-size: 28px;
   }
-  
+
   h2 {
     font-size: 24px;
   }
-  
+
   h3 {
     font-size: 20px;
+  }
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 420px) {
+  body {
+    font-size: 15px;
   }
 }
 

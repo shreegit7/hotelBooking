@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { submitRating } from '../services/api'
 import './RatingForm.css'
 
@@ -11,6 +12,20 @@ function RatingForm({ hotelId, onRatingSubmitted }) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem('user_token')
+    setIsLoggedIn(!!token)
+
+    if (token) {
+      const username = localStorage.getItem('username') || ''
+      setFormData((prev) => ({
+        ...prev,
+        user_name: prev.user_name || username,
+      }))
+    }
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -22,6 +37,10 @@ function RatingForm({ hotelId, onRatingSubmitted }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!isLoggedIn) {
+      setError('Please log in to submit a review.')
+      return
+    }
     setSubmitting(true)
     setError(null)
     setSuccess(false)
@@ -71,6 +90,11 @@ function RatingForm({ hotelId, onRatingSubmitted }) {
   return (
     <div className="rating-form-container">
       <h3 className="rating-form-title">Write a Review</h3>
+      {!isLoggedIn && (
+        <div className="rating-login-note">
+          Please <Link to="/login">log in</Link> to write a review.
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="rating-form">
         <div className="form-group">
           <label htmlFor="user_name" className="form-label">
@@ -83,6 +107,7 @@ function RatingForm({ hotelId, onRatingSubmitted }) {
             value={formData.user_name}
             onChange={handleChange}
             required
+            disabled={!isLoggedIn}
             className="form-input"
             placeholder="Enter your name"
           />
@@ -102,6 +127,7 @@ function RatingForm({ hotelId, onRatingSubmitted }) {
                   checked={formData.rating === star}
                   onChange={handleChange}
                   required
+                  disabled={!isLoggedIn}
                   className="star-radio"
                 />
                 <span className={`star-icon ${formData.rating >= star ? 'filled' : ''}`}>
@@ -124,6 +150,7 @@ function RatingForm({ hotelId, onRatingSubmitted }) {
             onChange={handleChange}
             rows="4"
             className="form-textarea"
+            disabled={!isLoggedIn}
             placeholder="Share your experience..."
           />
         </div>
@@ -142,7 +169,7 @@ function RatingForm({ hotelId, onRatingSubmitted }) {
 
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || !isLoggedIn}
           className="submit-rating-button"
         >
           {submitting ? 'Submitting...' : 'Submit Review'}

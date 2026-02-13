@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { submitBooking } from '../services/api'
 import './BookingModal.css'
 
@@ -13,16 +14,31 @@ function BookingModal({ hotel, isOpen, onClose }) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [booking, setBooking] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  // Set minimum date to today
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0]
     if (!formData.check_in) {
-      setFormData(prev => ({ ...prev, check_in: today }))
+      setFormData((prev) => ({ ...prev, check_in: today }))
     }
   }, [])
 
-  // Calculate nights and total price
+  useEffect(() => {
+    if (!isOpen) return
+    const token = localStorage.getItem('user_token')
+    setIsLoggedIn(!!token)
+
+    if (token) {
+      const username = localStorage.getItem('username') || ''
+      const email = localStorage.getItem('user_email') || ''
+      setFormData((prev) => ({
+        ...prev,
+        guest_name: prev.guest_name || username,
+        guest_email: prev.guest_email || email,
+      }))
+    }
+  }, [isOpen])
+
   const calculateTotal = () => {
     if (formData.check_in && formData.check_out && hotel) {
       const checkIn = new Date(formData.check_in)
@@ -31,7 +47,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
       if (nights > 0) {
         return {
           nights,
-          total: (parseFloat(hotel.price) * nights).toFixed(2)
+          total: (parseFloat(hotel.price) * nights).toFixed(2),
         }
       }
     }
@@ -42,17 +58,21 @@ function BookingModal({ hotel, isOpen, onClose }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: name === 'num_guests' ? parseInt(value) || 1 : value
+      [name]: name === 'num_guests' ? parseInt(value) || 1 : value,
     }))
     setError(null)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    // Validation
+
+    if (!isLoggedIn) {
+      setError('Please log in to book a room.')
+      return
+    }
+
     if (!formData.guest_name || !formData.guest_email || !formData.check_in || !formData.check_out) {
       setError('Please fill in all required fields.')
       return
@@ -101,14 +121,21 @@ function BookingModal({ hotel, isOpen, onClose }) {
             <div className="booking-modal-header">
               <h2 className="booking-modal-title">Book {hotel?.name}</h2>
               <button className="booking-modal-close" onClick={handleClose} disabled={submitting}>
-                ×
+                x
               </button>
             </div>
 
             <div className="booking-modal-content">
+              {!isLoggedIn && (
+                <div className="booking-login-note">
+                  Please <Link to="/login">log in</Link> to book this hotel.
+                </div>
+              )}
               <div className="booking-hotel-info">
-                <p className="booking-hotel-location">📍 {hotel?.location}</p>
-                <p className="booking-hotel-price">Rs. {parseFloat(hotel?.price || 0).toFixed(2)} per night</p>
+                <p className="booking-hotel-location">{hotel?.location}</p>
+                <p className="booking-hotel-price">
+                  Rs. {parseFloat(hotel?.price || 0).toFixed(2)} per night
+                </p>
               </div>
 
               <form onSubmit={handleSubmit} className="booking-form">
@@ -124,6 +151,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
                       value={formData.guest_name}
                       onChange={handleChange}
                       required
+                      disabled={!isLoggedIn}
                       className="form-input"
                       placeholder="Enter your full name"
                     />
@@ -140,6 +168,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
                       value={formData.guest_email}
                       onChange={handleChange}
                       required
+                      disabled={!isLoggedIn}
                       className="form-input"
                       placeholder="your.email@example.com"
                     />
@@ -159,6 +188,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
                       onChange={handleChange}
                       required
                       min={new Date().toISOString().split('T')[0]}
+                      disabled={!isLoggedIn}
                       className="form-input"
                     />
                   </div>
@@ -175,6 +205,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
                       onChange={handleChange}
                       required
                       min={formData.check_in || new Date().toISOString().split('T')[0]}
+                      disabled={!isLoggedIn}
                       className="form-input"
                     />
                   </div>
@@ -193,6 +224,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
                     required
                     min="1"
                     max="20"
+                    disabled={!isLoggedIn}
                     className="form-input"
                   />
                 </div>
@@ -214,15 +246,11 @@ function BookingModal({ hotel, isOpen, onClose }) {
                   </div>
                 )}
 
-                {error && (
-                  <div className="form-error">
-                    {error}
-                  </div>
-                )}
+                {error && <div className="form-error">{error}</div>}
 
                 <button
                   type="submit"
-                  disabled={submitting || nights <= 0}
+                  disabled={submitting || nights <= 0 || !isLoggedIn}
                   className="submit-booking-button"
                 >
                   {submitting ? 'Processing...' : 'Confirm Booking'}
@@ -232,7 +260,7 @@ function BookingModal({ hotel, isOpen, onClose }) {
           </>
         ) : (
           <div className="booking-confirmation">
-            <div className="booking-confirmation-icon">✓</div>
+            <div className="booking-confirmation-icon">OK</div>
             <h2 className="booking-confirmation-title">Booking Confirmed!</h2>
             <div className="booking-confirmation-details">
               <div className="confirmation-row">
@@ -249,11 +277,15 @@ function BookingModal({ hotel, isOpen, onClose }) {
               </div>
               <div className="confirmation-row">
                 <span className="confirmation-label">Check-in:</span>
-                <span className="confirmation-value">{new Date(booking.check_in).toLocaleDateString()}</span>
+                <span className="confirmation-value">
+                  {new Date(booking.check_in).toLocaleDateString()}
+                </span>
               </div>
               <div className="confirmation-row">
                 <span className="confirmation-label">Check-out:</span>
-                <span className="confirmation-value">{new Date(booking.check_out).toLocaleDateString()}</span>
+                <span className="confirmation-value">
+                  {new Date(booking.check_out).toLocaleDateString()}
+                </span>
               </div>
               <div className="confirmation-row">
                 <span className="confirmation-label">Guests:</span>
@@ -261,18 +293,25 @@ function BookingModal({ hotel, isOpen, onClose }) {
               </div>
               <div className="confirmation-row total-row">
                 <span className="confirmation-label">Total Amount:</span>
-                <span className="confirmation-value">Rs. {parseFloat(booking.total_price).toFixed(2)}</span>
+                <span className="confirmation-value">
+                  Rs. {parseFloat(booking.total_price).toFixed(2)}
+                </span>
               </div>
             </div>
             <div className="booking-status-info">
               <p className="booking-status-badge" data-status={booking.status}>
-                Status: {booking.status === 'pending' ? 'Pending Approval' : 
-                         booking.status === 'confirmed' ? 'Confirmed' : 
-                         booking.status === 'declined' ? 'Declined' : booking.status}
+                Status:{' '}
+                {booking.status === 'pending'
+                  ? 'Pending Approval'
+                  : booking.status === 'confirmed'
+                  ? 'Confirmed'
+                  : booking.status === 'declined'
+                  ? 'Declined'
+                  : booking.status}
               </p>
               {booking.status === 'pending' && (
                 <p className="booking-confirmation-message">
-                  Your booking request has been submitted and is pending hotel approval. 
+                  Your booking request has been submitted and is pending hotel approval.
                   You will receive an email at {booking.guest_email} once the hotel responds.
                 </p>
               )}
@@ -293,4 +332,3 @@ function BookingModal({ hotel, isOpen, onClose }) {
 }
 
 export default BookingModal
-

@@ -1,4 +1,4 @@
-/* Loading Spinner Component - Modern Warm Theme */
+﻿/* Loading Spinner Component - Modern Cool Theme */
 
 .loading-spinner-container {
   display: flex;
@@ -10,10 +10,10 @@
 }
 
 .loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #FFF5F2;
-  border-top: 4px solid #FF6B35;
+  width: 52px;
+  height: 52px;
+  border: 4px solid rgba(29, 78, 216, 0.15);
+  border-top: 4px solid var(--primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -24,8 +24,6 @@
 }
 
 .loading-text {
-  color: #666666;
-  font-size: 16px;
-  font-family: 'Roboto', sans-serif;
+  color: var(--muted);
+  font-size: 15px;
 }
-

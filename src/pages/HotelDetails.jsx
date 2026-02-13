@@ -6,6 +6,7 @@ import ErrorMessage from '../components/ErrorMessage'
 import RatingForm from '../components/RatingForm'
 import RatingList from '../components/RatingList'
 import BookingModal from '../components/BookingModal'
+import ImageGallery from '../components/ImageGallery'
 import './HotelDetails.css'
 
 function HotelDetails() {
@@ -71,13 +72,18 @@ function HotelDetails() {
           ← Back to Hotels
         </Link>
 
-        <div className="hotel-details-image-container">
-          <img
-            src={hotel.image || 'https://via.placeholder.com/800x400?text=Hotel+Image'}
-            alt={hotel.name}
-            className="hotel-details-image"
-          />
-        </div>
+        {/* Use ImageGallery if images exist, otherwise fallback to single image */}
+        {hotel.images && hotel.images.length > 0 ? (
+          <ImageGallery images={hotel.images} hotelName={hotel.name} />
+        ) : (
+          <div className="hotel-details-image-container">
+            <img
+              src={hotel.image || 'https://via.placeholder.com/800x400?text=Hotel+Image'}
+              alt={hotel.name}
+              className="hotel-details-image"
+            />
+          </div>
+        )}
 
         <div className="hotel-details-content">
           <div className="hotel-details-header">

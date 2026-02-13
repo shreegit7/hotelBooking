@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-hotel-booking-app-school-project-key-change-in-pro
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','.ngrok-free.dev']
 
 
 # Application definition
@@ -83,6 +83,9 @@ DATABASES = {
         },
     }
 }
+CSRF_TRUSTED_ORIGINS = [
+    "https://depauperate-overtolerant-jene.ngrok-free.dev",  # allow ngrok POST/PUT requests
+]
 
 
 # Password validation
@@ -148,6 +151,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://7b2a44b465ae.ngrok-free.app",
+    "https://abcdef.ngrok-free.dev",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

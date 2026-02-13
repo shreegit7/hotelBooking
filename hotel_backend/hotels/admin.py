@@ -5,7 +5,7 @@ from django.utils.html import format_html
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django import forms
-from .models import Hotel, Rating, Booking
+from .models import Hotel, Rating, Booking, HotelImage
 
 
 class HotelAdminForm(forms.ModelForm):
@@ -55,6 +55,16 @@ class HotelAdminForm(forms.ModelForm):
         return cleaned_data
 
 
+
+
+class HotelImageInline(admin.TabularInline):
+    """Inline admin for HotelImage model."""
+    model = HotelImage
+    extra = 1
+    fields = ('image_url', 'alt_text', 'display_order')
+    ordering = ('display_order',)
+
+
 @admin.register(Hotel)
 class HotelAdmin(admin.ModelAdmin):
     """Admin interface for Hotel model."""
@@ -63,6 +73,7 @@ class HotelAdmin(admin.ModelAdmin):
     list_filter = ['location', 'rating']
     search_fields = ['name', 'location']
     ordering = ['name']
+    inlines = [HotelImageInline]
     fieldsets = (
         ('Hotel Information', {
             'fields': ('name', 'location', 'price', 'rating', 'image', 'description', 'amenities')
@@ -126,6 +137,16 @@ class HotelAdmin(admin.ModelAdmin):
         if obj and obj.user:
             readonly.append('user')
         return readonly
+
+
+@admin.register(HotelImage)
+class HotelImageAdmin(admin.ModelAdmin):
+    """Admin interface for HotelImage model."""
+    list_display = ['hotel', 'image_url', 'display_order', 'created_at']
+    list_filter = ['hotel', 'created_at']
+    search_fields = ['hotel__name', 'alt_text']
+    ordering = ['hotel', 'display_order', 'created_at']
+    readonly_fields = ['created_at']
 
 
 @admin.register(Rating)

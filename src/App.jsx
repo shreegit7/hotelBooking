@@ -5,6 +5,10 @@ import HotelsList from './pages/HotelsList'
 import HotelDetails from './pages/HotelDetails'
 import HotelLogin from './pages/HotelLogin'
 import HotelDashboard from './pages/HotelDashboard'
+import Register from './pages/Register'
+import Login from './pages/Login'
+import UserDashboard from './pages/UserDashboard'
+import Contact from './pages/Contact'
 import './styles.css'
 
 function App() {
@@ -19,6 +23,10 @@ function App() {
             <Route path="/hotels/:id" element={<HotelDetails />} />
             <Route path="/hotel/login" element={<HotelLogin />} />
             <Route path="/hotel/dashboard" element={<HotelDashboard />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/user/dashboard" element={<UserDashboard />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
       </div>

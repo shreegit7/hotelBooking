@@ -1,4 +1,4 @@
-﻿.hotel-login-page {
+﻿.login-page {
   min-height: calc(100vh - 80px);
   display: flex;
   align-items: center;
@@ -10,12 +10,12 @@
     linear-gradient(160deg, #eef6ff 0%, #f2fffb 60%, #ffffff 100%);
 }
 
-.hotel-login-container {
+.login-container {
   width: 100%;
   max-width: 450px;
 }
 
-.hotel-login-card {
+.login-card {
   background: var(--surface);
   border-radius: var(--radius);
   padding: 2.5rem;
@@ -23,7 +23,7 @@
   border: 1px solid var(--border);
 }
 
-.hotel-login-title {
+.login-title {
   font-size: 2rem;
   font-weight: 700;
   font-family: var(--font-display);
@@ -32,7 +32,7 @@
   text-align: center;
 }
 
-.hotel-login-subtitle {
+.login-subtitle {
   color: var(--muted);
   text-align: center;
   margin-bottom: 2rem;
@@ -40,7 +40,7 @@
   font-weight: 400;
 }
 
-.hotel-login-form {
+.login-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -79,7 +79,7 @@
   cursor: not-allowed;
 }
 
-.hotel-login-button {
+.login-button {
   padding: 14px 32px;
   background: linear-gradient(120deg, var(--primary), var(--accent));
   color: #ffffff;
@@ -93,49 +93,54 @@
   box-shadow: 0 10px 24px rgba(29, 78, 216, 0.25);
 }
 
-.hotel-login-button:hover:not(:disabled) {
+.login-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(29, 78, 216, 0.3);
 }
 
-.hotel-login-button:disabled {
+.login-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.hotel-login-note {
+.login-register-link {
   margin-top: 1.5rem;
-  padding: 1rem;
-  background-color: rgba(29, 78, 216, 0.08);
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  color: var(--muted);
   text-align: center;
-  line-height: 1.5;
-  border: 1px solid rgba(29, 78, 216, 0.2);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.login-register-link a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-register-link a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
-  .hotel-login-card {
+  .login-card {
     padding: 2rem 1.5rem;
   }
 
-  .hotel-login-title {
+  .login-title {
     font-size: 1.75rem;
   }
 }
 
 /* Mobile tweaks */
 @media (max-width: 520px) {
-  .hotel-login-page {
+  .login-page {
     padding: 1.25rem;
   }
 
-  .hotel-login-card {
+  .login-card {
     padding: 1.75rem 1.25rem;
   }
 
-  .hotel-login-button {
+  .login-button {
     width: 100%;
   }
 }

@@ -1,15 +1,15 @@
-﻿.hotel-dashboard-page {
+﻿.user-dashboard-page {
   min-height: calc(100vh - 80px);
   padding: 2rem;
   background-color: transparent;
 }
 
-.hotel-dashboard-container {
+.user-dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.hotel-dashboard-header {
+.user-dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,19 +21,19 @@
   border: 1px solid var(--border);
 }
 
-.hotel-dashboard-title {
+.user-dashboard-title {
   font-size: 2rem;
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 0.25rem;
 }
 
-.hotel-dashboard-subtitle {
+.user-dashboard-subtitle {
   color: var(--muted);
   font-size: 1rem;
 }
 
-.hotel-logout-button {
+.user-logout-button {
   padding: 0.75rem 1.5rem;
   background-color: var(--danger);
   color: white;
@@ -46,7 +46,7 @@
   box-shadow: 0 8px 18px rgba(220, 38, 38, 0.2);
 }
 
-.hotel-logout-button:hover {
+.user-logout-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 22px rgba(220, 38, 38, 0.28);
 }
@@ -75,7 +75,7 @@
   border-left: 4px solid var(--success);
 }
 
-.stat-card.declined {
+.stat-card.cancelled {
   border-left: 4px solid var(--danger);
 }
 
@@ -93,153 +93,34 @@
   letter-spacing: 0.5px;
 }
 
-.dashboard-tools {
+.dashboard-filters {
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.status-pills {
-  display: flex;
-  flex-wrap: wrap;
   gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
-.status-pill {
-  padding: 0.6rem 1.1rem;
+.filter-button {
+  padding: 0.7rem 1.4rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 999px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--muted);
   cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.status-pill:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.status-pill.active {
-  background: linear-gradient(120deg, var(--primary), var(--accent));
-  color: white;
-  border-color: transparent;
-}
-
-.status-pill-count {
-  background: rgba(255, 255, 255, 0.2);
-  color: inherit;
-  padding: 0.15rem 0.45rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.search-filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid var(--border);
-  padding: 1rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-1);
-}
-
-.dashboard-search {
-  flex: 1;
-  min-width: 260px;
-}
-
-.search-input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.dashboard-search .search-input {
-  width: 100%;
-  padding: 12px 40px 12px 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 15px;
-  background-color: var(--surface);
-  color: var(--ink);
   transition: all 0.25s ease;
 }
 
-.dashboard-search .search-input:focus {
-  outline: none;
+.filter-button:hover {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
-}
-
-.dashboard-search .search-clear-button {
-  position: absolute;
-  right: 8px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: var(--muted);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  width: 30px;
-  height: 30px;
-}
-
-.dashboard-search .search-clear-button:hover {
-  background-color: rgba(29, 78, 216, 0.08);
   color: var(--primary);
 }
 
-.date-filter {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.date-label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.date-input {
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 0.9rem;
-  color: var(--ink);
-  background: var(--surface);
-}
-
-.clear-filters {
-  align-self: flex-start;
-  padding: 0.6rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(29, 78, 216, 0.2);
-  background: rgba(29, 78, 216, 0.08);
-  color: var(--primary);
-  font-weight: 600;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.clear-filters:hover {
-  background: rgba(29, 78, 216, 0.14);
+.filter-button.active {
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  color: white;
+  border-color: transparent;
 }
 
 .bookings-list {
@@ -278,7 +159,7 @@
   margin-bottom: 0.25rem;
 }
 
-.booking-guest {
+.booking-hotel {
   color: var(--muted);
   font-size: 0.95rem;
 }
@@ -362,28 +243,6 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.approve-button {
-  background-color: var(--success);
-  color: white;
-  box-shadow: 0 8px 18px rgba(22, 163, 74, 0.2);
-}
-
-.approve-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.3);
-}
-
-.decline-button {
-  background-color: var(--danger);
-  color: white;
-  box-shadow: 0 8px 18px rgba(220, 38, 38, 0.2);
-}
-
-.decline-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
-}
-
 .cancel-button {
   background-color: var(--danger);
   color: white;
@@ -402,18 +261,29 @@
   border-radius: var(--radius);
   color: var(--muted);
   border: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
+}
+
+.no-bookings-hint {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.no-bookings-hint a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.no-bookings-hint a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
-  .hotel-dashboard-page {
+  .user-dashboard-page {
     padding: 1rem;
   }
 
-  .hotel-dashboard-header {
+  .user-dashboard-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
@@ -430,11 +300,6 @@
   .booking-actions {
     flex-direction: column;
   }
-
-  .search-filter-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
 }
 
 /* Mobile tweaks */
@@ -443,34 +308,19 @@
     grid-template-columns: 1fr;
   }
 
-  .status-pills {
-    gap: 0.5rem;
-  }
-
-  .status-pill {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .date-filter {
+  .dashboard-filters {
     flex-direction: column;
-    align-items: stretch;
-    width: 100%;
   }
 
-  .date-input {
+  .filter-button {
     width: 100%;
+    text-align: center;
   }
 
   .booking-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
-  }
-
-  .clear-filters {
-    width: 100%;
-    text-align: center;
   }
 }
 

@@ -1,82 +1,202 @@
-/* Home Page - Modern Warm Theme */
+﻿/* Home Page - Modern Cool Theme */
 
 .home-page {
   min-height: calc(100vh - 80px);
 }
 
 .welcome-banner {
-  background: linear-gradient(135deg, #FF6B35 0%, #FFB400 100%);
-  color: white;
+  position: relative;
+  color: var(--ink);
   padding: 6rem 2rem;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - 80px);
+  background:
+    radial-gradient(800px 400px at 10% 20%, rgba(20, 184, 166, 0.28), transparent 60%),
+    radial-gradient(700px 400px at 90% 10%, rgba(29, 78, 216, 0.2), transparent 60%),
+    linear-gradient(160deg, #eaf4ff 0%, #e8fbf7 60%, #fefefe 100%);
+  overflow: hidden;
 }
 
 .banner-content {
   max-width: 800px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.8rem;
+  animation: float-in 0.7s ease;
 }
 
 .banner-title {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-display);
   margin: 0;
-  line-height: 1.2;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.15;
 }
 
 .banner-subtitle {
   font-size: 20px;
-  font-family: 'Roboto', sans-serif;
   margin: 0;
-  opacity: 0.95;
-  line-height: 1.6;
-  font-weight: 300;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-weight: 400;
 }
 
 .banner-button {
   display: inline-block;
-  background-color: #FFFFFF;
-  color: #FF6B35;
+  align-self: center;
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  color: #ffffff;
   padding: 16px 40px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   text-decoration: none;
   font-weight: 600;
   font-size: 18px;
-  font-family: 'Roboto', sans-serif;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  margin-top: 0.5rem;
+  box-shadow: 0 12px 28px rgba(29, 78, 216, 0.25);
 }
 
 .banner-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  background-color: #FFF5F2;
+  transform: translateY(-3px);
+  box-shadow: 0 18px 34px rgba(29, 78, 216, 0.3);
+  filter: brightness(1.03);
+}
+
+.featured-section {
+  padding: 4rem 2rem 5rem;
+}
+
+.featured-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.featured-title {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--ink);
+  margin: 0 0 0.5rem 0;
+}
+
+.featured-subtitle {
+  color: var(--muted);
+  font-size: 16px;
+  margin: 0;
+}
+
+.featured-link {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(29, 78, 216, 0.2);
+  background-color: rgba(29, 78, 216, 0.08);
+  transition: all 0.25s ease;
+}
+
+.featured-link:hover {
+  color: var(--primary-strong);
+  background-color: rgba(29, 78, 216, 0.12);
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.featured-loading .loading-spinner-container {
+  padding: 2rem 0;
+}
+
+.featured-loading .loading-text {
+  font-size: 14px;
+}
+
+.featured-empty,
+.featured-error {
+  color: var(--muted);
+  font-size: 16px;
+  margin: 0;
+  padding: 1.5rem 0 0;
 }
 
 @media (max-width: 768px) {
   .welcome-banner {
     padding: 4rem 20px;
   }
-  
+
   .banner-title {
-    font-size: 28px;
+    font-size: 30px;
   }
-  
+
   .banner-subtitle {
-    font-size: 18px;
+    font-size: 17px;
   }
-  
+
   .banner-button {
     padding: 14px 32px;
     font-size: 16px;
+  }
+
+  .featured-section {
+    padding: 3rem 20px 4rem;
+  }
+
+  .featured-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile tweaks */
+@media (max-width: 520px) {
+  .welcome-banner {
+    padding: 3rem 16px;
+    min-height: auto;
+  }
+
+  .banner-title {
+    font-size: 26px;
+  }
+
+  .banner-subtitle {
+    font-size: 15px;
+  }
+
+  .banner-button {
+    width: 100%;
+  }
+
+  .featured-section {
+    padding: 2.5rem 16px 3rem;
+  }
+
+  .featured-link {
+    width: 100%;
+    text-align: center;
+  }
+
+  .featured-header {
+    gap: 1rem;
   }
 }
 

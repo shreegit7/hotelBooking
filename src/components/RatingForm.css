@@ -1,18 +1,19 @@
-/* Rating Form Component - Modern Warm Theme */
+﻿/* Rating Form Component - Modern Cool Theme */
 
 .rating-form-container {
-  background-color: #FFFFFF;
-  border-radius: 10px;
+  background-color: var(--surface);
+  border-radius: var(--radius);
   padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-1);
   margin-bottom: 20px;
+  border: 1px solid var(--border);
 }
 
 .rating-form-title {
   font-size: 22px;
   font-weight: 600;
-  font-family: 'Montserrat', sans-serif;
-  color: #333333;
+  font-family: var(--font-display);
+  color: var(--ink);
   margin: 0 0 1.5rem 0;
 }
 
@@ -20,6 +21,21 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.rating-login-note {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #92400e;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.rating-login-note a {
+  color: inherit;
+  font-weight: 600;
 }
 
 .form-group {
@@ -30,27 +46,26 @@
 
 .form-label {
   font-weight: 500;
-  font-family: 'Roboto', sans-serif;
-  color: #333333;
-  font-size: 16px;
+  color: var(--ink-soft);
+  font-size: 15px;
 }
 
 .form-input,
 .form-textarea {
   padding: 12px;
-  border: 2px solid #E0E0E0;
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   font-size: 16px;
-  font-family: 'Roboto', sans-serif;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
+  background-color: var(--surface);
+  color: var(--ink);
 }
 
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #FF6B35;
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
-  background-color: #FFF5F2;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
 }
 
 .form-textarea {
@@ -80,13 +95,13 @@
   transition: transform 0.2s ease;
   filter: grayscale(100%);
   opacity: 0.3;
-  color: #FFB400;
+  color: var(--warning);
 }
 
 .star-icon.filled {
   filter: grayscale(0%);
   opacity: 1;
-  color: #FFB400;
+  color: var(--warning);
 }
 
 .star-label:hover .star-icon {
@@ -96,54 +111,49 @@
 .rating-value-display {
   margin-left: 0.5rem;
   font-weight: 600;
-  font-family: 'Roboto', sans-serif;
-  color: #FF6B35;
-  font-size: 1.1rem;
+  color: var(--primary);
+  font-size: 1.05rem;
 }
 
 .form-error {
-  background-color: #FFE5E5;
-  color: #CC0000;
+  background-color: rgba(220, 38, 38, 0.1);
+  color: var(--danger);
   padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 16px;
-  font-family: 'Roboto', sans-serif;
-  border-left: 3px solid #CC0000;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
 .form-success {
-  background-color: #FFF9E6;
-  color: #FFB400;
+  background-color: rgba(22, 163, 74, 0.12);
+  color: #166534;
   padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 16px;
-  font-family: 'Roboto', sans-serif;
-  border-left: 3px solid #FFB400;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  border: 1px solid rgba(22, 163, 74, 0.2);
 }
 
 .submit-rating-button {
-  background-color: #FF6B35;
-  color: #FFFFFF;
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  color: #ffffff;
   border: none;
-  padding: 14px 32px;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: 12px 30px;
+  border-radius: 999px;
+  font-size: 15px;
   font-weight: 600;
-  font-family: 'Roboto', sans-serif;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   align-self: flex-start;
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 10px 24px rgba(29, 78, 216, 0.25);
 }
 
 .submit-rating-button:hover:not(:disabled) {
-  background-color: #FF5722;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 14px 28px rgba(29, 78, 216, 0.3);
 }
 
 .submit-rating-button:disabled {
-  background-color: #CCCCCC;
+  background-color: #cbd5f5;
   cursor: not-allowed;
   transform: none;
 }
@@ -152,12 +162,21 @@
   .rating-form-container {
     padding: 20px;
   }
-  
+
   .rating-stars-input {
     gap: 0.25rem;
   }
-  
+
   .star-icon {
     font-size: 1.5rem;
   }
 }
+
+/* Mobile tweaks */
+@media (max-width: 520px) {
+  .submit-rating-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+

@@ -6,11 +6,19 @@ function HotelCard({ hotel }) {
   const hasUserRatings = hotel.ratings_count > 0 && hotel.average_user_rating != null
   const displayRating = hasUserRatings ? hotel.average_user_rating : hotel.rating
 
+  // Get the first image from images array if available, otherwise use legacy image field
+  const getImageUrl = () => {
+    if (hotel.images && hotel.images.length > 0) {
+      return hotel.images[0].image_url || hotel.images[0]
+    }
+    return hotel.image || 'https://via.placeholder.com/400x250?text=Hotel+Image'
+  }
+
   return (
     <Link to={`/hotels/${hotel.id}`} className="hotel-card">
       <div className="hotel-card-image-container">
         <img 
-          src={hotel.image || 'https://via.placeholder.com/400x250?text=Hotel+Image'} 
+          src={getImageUrl()} 
           alt={hotel.name}
           className="hotel-card-image"
         />

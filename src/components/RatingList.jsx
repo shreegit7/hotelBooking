@@ -1,6 +1,14 @@
+import { useState } from 'react'
+import { replyToRating } from '../services/api'
 import './RatingList.css'
 
 function RatingList({ ratings }) {
+  const [replyDrafts, setReplyDrafts] = useState({})
+  const [replyingId, setReplyingId] = useState(null)
+  const [replyError, setReplyError] = useState('')
+
+  const isHotelLoggedIn = !!localStorage.getItem('hotel_token')
+
   if (!ratings || ratings.length === 0) {
     return (
       <div className="rating-list-empty">
@@ -16,6 +24,29 @@ function RatingList({ ratings }) {
       month: 'long',
       day: 'numeric'
     })
+  }
+
+  const handleReplyChange = (ratingId, value) => {
+    setReplyDrafts((prev) => ({ ...prev, [ratingId]: value }))
+  }
+
+  const handleReplySubmit = async (ratingId) => {
+    const replyText = (replyDrafts[ratingId] || '').trim()
+    if (!replyText) {
+      setReplyError('Reply cannot be empty.')
+      return
+    }
+
+    try {
+      setReplyingId(ratingId)
+      setReplyError('')
+      await replyToRating(ratingId, replyText)
+      window.location.reload()
+    } catch (err) {
+      setReplyError(err.message || 'Failed to submit reply.')
+    } finally {
+      setReplyingId(null)
+    }
   }
 
   return (
@@ -45,6 +76,38 @@ function RatingList({ ratings }) {
             </div>
             {rating.comment && (
               <p className="rating-comment">{rating.comment}</p>
+            )}
+
+            {rating.hotel_reply && (
+              <div className="rating-reply">
+                <div className="rating-reply-label">Hotel reply</div>
+                <div className="rating-reply-text">{rating.hotel_reply}</div>
+              </div>
+            )}
+
+            {isHotelLoggedIn && !rating.hotel_reply && (
+              <div className="rating-reply-form">
+                <label className="rating-reply-label" htmlFor={`reply-${rating.id}`}>
+                  Reply to this review
+                </label>
+                <textarea
+                  id={`reply-${rating.id}`}
+                  className="rating-reply-input"
+                  rows="3"
+                  value={replyDrafts[rating.id] || ''}
+                  onChange={(e) => handleReplyChange(rating.id, e.target.value)}
+                  placeholder="Write a short reply..."
+                />
+                {replyError && <div className="form-error">{replyError}</div>}
+                <button
+                  type="button"
+                  className="submit-rating-button"
+                  onClick={() => handleReplySubmit(rating.id)}
+                  disabled={replyingId === rating.id}
+                >
+                  {replyingId === rating.id ? 'Replying...' : 'Post Reply'}
+                </button>
+              </div>
             )}
           </div>
         ))}

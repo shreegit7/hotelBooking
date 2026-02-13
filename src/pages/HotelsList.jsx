@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { fetchHotels } from '../services/api'
 import HotelCard from '../components/HotelCard'
 import LoadingSpinner from '../components/LoadingSpinner'
@@ -53,19 +53,20 @@ function HotelsList() {
     setDebouncedSearch('')
   }
 
-  if (loading) {
-    return <LoadingSpinner />
-  }
-
-  if (error) {
-    return <ErrorMessage message={error} />
-  }
-
   return (
     <div className="hotels-list-page">
       <div className="hotels-list-container">
         <div className="hotels-list-header">
-          <h1 className="hotels-list-title">All Hotels</h1>
+          <div className="hotels-hero">
+            <div className="hotels-hero-text">
+              <h1 className="hotels-list-title">Stay somewhere unforgettable</h1>
+              <p className="hotels-list-subtitle">
+                {debouncedSearch
+                  ? `Results for "${debouncedSearch}"`
+                  : 'Browse top stays picked for comfort, views, and service.'}
+              </p>
+            </div>
+          </div>
           <div className="hotels-controls">
             <div className="search-controls">
               <div className="search-input-wrapper">
@@ -82,7 +83,7 @@ function HotelsList() {
                     className="search-clear-button"
                     aria-label="Clear search"
                   >
-                    ×
+                    x
                   </button>
                 )}
               </div>
@@ -102,17 +103,23 @@ function HotelsList() {
                 <option value="-price">Price: High to Low</option>
                 <option value="-rating">Rating (High to Low)</option>
                 <option value="rating">Rating (Low to High)</option>
-                <option value="name">Name (A–Z)</option>
-                <option value="-name">Name (Z–A)</option>
+                <option value="name">Name (A-Z)</option>
+                <option value="-name">Name (Z-A)</option>
               </select>
             </div>
           </div>
         </div>
 
-        {hotels.length === 0 ? (
+        {error ? (
+          <ErrorMessage message={error} />
+        ) : loading ? (
+          <div className="hotels-loading">
+            <LoadingSpinner />
+          </div>
+        ) : hotels.length === 0 ? (
           <div className="no-hotels">
             <p>
-              {debouncedSearch 
+              {debouncedSearch
                 ? `No hotels found matching "${debouncedSearch}". Try a different search term.`
                 : 'No hotels found.'}
             </p>
@@ -130,4 +137,3 @@ function HotelsList() {
 }
 
 export default HotelsList
-

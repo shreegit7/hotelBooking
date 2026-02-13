@@ -1,4 +1,4 @@
-# Hotel Booking App - Full-Stack Project
+﻿# Hotel Booking App - Full-Stack Project
 
 A full-stack hotel listing platform built with React (Vite) frontend and Django REST Framework backend, connected to MySQL database.
 
@@ -22,25 +22,28 @@ A full-stack hotel listing platform built with React (Vite) frontend and Django 
 
 ```
 .
-├── hotel_backend/          # Django backend
-│   ├── hotel_backend/      # Project settings
-│   ├── hotels/            # Hotels app
-│   │   ├── models.py      # Hotel model
-│   │   ├── serializers.py # DRF serializers
-│   │   ├── views.py       # API viewsets
-│   │   ├── urls.py        # API URLs
-│   │   └── admin.py       # Admin configuration
-│   ├── manage.py
-│   └── requirements.txt
-├── src/                    # React frontend
-│   ├── components/        # Reusable components
-│   ├── pages/            # Page components
-│   ├── services/         # API service
-│   ├── styles.css        # Global styles
-│   └── main.jsx          # Entry point
-├── package.json
-├── vite.config.js
-└── README.md
+|-- hotel_backend/          # Django backend
+|   |-- hotel_backend/      # Project settings
+|   |-- hotels/             # Hotels app
+|   |   |-- models.py       # Hotel/Booking/Rating/HotelImage models
+|   |   |-- serializers.py  # DRF serializers
+|   |   |-- views.py        # API viewsets + auth endpoints
+|   |   |-- urls.py         # API URLs
+|   |   |-- admin.py        # Admin configuration
+|   |   |-- migrations/
+|   |-- manage.py
+|   |-- requirements.txt
+|-- public/
+|   |-- hotel.png
+|-- src/                    # React frontend
+|   |-- components/         # Reusable components
+|   |-- pages/              # Page components
+|   |-- services/           # API service
+|   |-- styles.css          # Global styles
+|   |-- main.jsx            # Entry point
+|-- package.json
+|-- vite.config.js
+|-- README.md
 ```
 
 ## Prerequisites
@@ -116,14 +119,15 @@ Before you begin, ensure you have the following installed:
    }
    ```
 
-5. **Run migrations** (creates Hotel, Rating, and Booking tables):
+5. **Run migrations** (creates Hotel, HotelImage, Rating, and Booking tables):
    ```bash
    python manage.py makemigrations
    python manage.py migrate
    ```
-   
-   **Note**: After running migrations, you'll have three tables:
+
+   **Note**: After running migrations, you'll have these core tables:
    - `Hotel` - Hotel listings
+   - `HotelImage` - Multiple images per hotel (URL-based)
    - `Rating` - User ratings/reviews
    - `Booking` - Hotel bookings/reservations
 
@@ -158,7 +162,8 @@ You have two options to add sample hotels:
    - Image URL (you can use placeholder images like `https://via.placeholder.com/800x400`)
    - Description
    - Amenities (as JSON array, e.g., `["WiFi", "Pool", "Gym", "Spa"]`)
-5. Add at least 8 hotels with different prices, ratings, and locations
+5. (Optional) Add multiple images under "Hotel Images" for a gallery
+6. Add at least 8 hotels with different prices, ratings, and locations
 
 #### Option B: Using Django Shell
 
@@ -203,6 +208,8 @@ for hotel_data in hotels_data:
    npm run dev
    ```
    The frontend will be available at `http://localhost:5173`
+
+**Note:** The frontend uses `API_BASE_URL` in `src/services/api.js`. Update it if your backend URL changes.
 
 ## Running the Application
 
@@ -252,6 +259,7 @@ GET http://localhost:8000/api/hotels/1/
 - Hotel details
 - `ratings_count` - Number of user ratings
 - `average_user_rating` - Average rating from user reviews (if available)
+- `images` - Array of hotel images (if added)
 
 ### Get Hotel Ratings
 ```
@@ -269,6 +277,7 @@ Returns a list of all user ratings/reviews for the hotel.
 ```
 POST http://localhost:8000/api/hotels/{id}/ratings/
 ```
+Requires user login (token auth). Hotel accounts cannot submit reviews.
 
 **Request Body**:
 ```json
@@ -287,14 +296,31 @@ POST http://localhost:8000/api/hotels/{id}/ratings/
 **Example**:
 ```bash
 curl -X POST http://localhost:8000/api/hotels/1/ratings/ \
+  -H "Authorization: Token <user_token>" \
   -H "Content-Type: application/json" \
   -d '{"user_name": "John Doe", "rating": 5, "comment": "Amazing experience!"}'
+```
+
+### Hotel Reply to a Rating
+```
+POST http://localhost:8000/api/ratings/{id}/reply/
+```
+**Body:** `{ "hotel_reply": "Thanks for your feedback!" }` (hotel token required)
+Only hotel accounts can reply, and only to their own hotel's reviews.
+
+### User Authentication
+```
+POST http://localhost:8000/api/auth/register/
+POST http://localhost:8000/api/auth/login/
+POST http://localhost:8000/api/auth/logout/
+GET  http://localhost:8000/api/auth/profile/
 ```
 
 ### Create a Booking
 ```
 POST http://localhost:8000/api/hotels/{id}/book/
 ```
+Requires user login (token auth). Hotel accounts cannot book rooms.
 
 **Request Body**:
 ```json
@@ -317,13 +343,16 @@ POST http://localhost:8000/api/hotels/{id}/book/
 **Response**:
 Returns booking details including:
 - `booking_reference` - Unique 8-character booking reference
-- `total_price` - Calculated total (price per night × number of nights)
-- `status` - Booking status (confirmed)
+- `total_price` - Calculated total (price per night * number of nights)
+- `status` - Booking status (pending, confirmed, declined, cancelled)
+- `can_cancel` - Boolean flag for user cancellation window
+- `cancel_deadline` - ISO timestamp for cancellation deadline
 - All booking details
 
 **Example**:
 ```bash
 curl -X POST http://localhost:8000/api/hotels/1/book/ \
+  -H "Authorization: Token <user_token>" \
   -H "Content-Type: application/json" \
   -d '{
     "guest_name": "John Doe",
@@ -333,6 +362,39 @@ curl -X POST http://localhost:8000/api/hotels/1/book/ \
     "num_guests": 2
   }'
 ```
+
+### List Bookings (User/Hotel)
+```
+GET http://localhost:8000/api/bookings/
+```
+Returns only the authenticated user's bookings or the authenticated hotel's bookings.
+
+### Approve/Decline Booking (Hotel)
+```
+POST http://localhost:8000/api/bookings/{id}/approve/
+POST http://localhost:8000/api/bookings/{id}/decline/
+```
+Only hotel accounts can approve or decline pending bookings.
+
+### Cancel a Booking (User)
+```
+POST http://localhost:8000/api/bookings/{id}/cancel/
+```
+- Users can cancel within 2 hours of booking creation.
+- After the window expires, ask the hotel to cancel.
+
+### Hotel Authentication
+```
+POST http://localhost:8000/api/auth/hotel/login/
+POST http://localhost:8000/api/auth/hotel/logout/
+GET  http://localhost:8000/api/auth/hotel/profile/
+```
+
+### Cancel a Booking (Hotel)
+```
+POST http://localhost:8000/api/bookings/{id}/hotel-cancel/
+```
+- Hotels can cancel pending or confirmed bookings.
 
 ## How Sorting Works
 
@@ -355,24 +417,32 @@ The frontend sends sorting requests to the Django API using query parameters:
 
 1. **Home Page** (`/`)
    - Welcome banner
-   - Navigation to hotels list
+   - Featured hotels
 
 2. **Hotels List** (`/hotels`)
    - Grid layout of all hotels
-   - Sort dropdown (Price, Rating, Name)
-   - Responsive design
-   - Loading and error states
+   - Search and sorting
 
 3. **Hotel Details** (`/hotels/:id`)
-   - Large hotel image
-   - Full description
-   - Amenities list
-   - Price and rating display
-   - User rating form (submit reviews)
-   - User ratings list (view all reviews)
-   - Average user rating display
-   - **Book Now button** - Opens booking modal with form
-   - **Booking simulation** - Complete booking flow with confirmation
+   - Hotel info, amenities, and ratings
+   - Booking modal
+   - Hotel replies to reviews (if logged in as hotel)
+
+4. **User Register/Login** (`/register`, `/login`)
+   - User authentication
+
+5. **User Dashboard** (`/user/dashboard`)
+   - View bookings and cancel within window
+
+6. **Hotel Login** (`/hotel/login`)
+   - Hotel account authentication
+
+7. **Hotel Dashboard** (`/hotel/dashboard`)
+   - Approve/decline/cancel bookings
+   - Reply to reviews
+
+8. **Contact** (`/contact`)
+   - Contact form
 
 ### Components
 
@@ -380,9 +450,10 @@ The frontend sends sorting requests to the Django API using query parameters:
 - **HotelCard** - Reusable card component for hotel listings
 - **LoadingSpinner** - Loading state indicator
 - **ErrorMessage** - Error state display
-- **RatingForm** - Form to submit user ratings/reviews
-- **RatingList** - Display list of user ratings/reviews
+- **RatingForm** - Form to submit guest ratings/reviews (login required)
+- **RatingList** - Display list of ratings and hotel replies
 - **BookingModal** - Modal with booking form and confirmation
+- **ImageGallery** - Hotel image carousel/gallery
 
 ## Troubleshooting
 
@@ -400,6 +471,7 @@ The frontend sends sorting requests to the Django API using query parameters:
 3. **Migration Errors**:
    - Delete migration files (except `__init__.py`) and run `makemigrations` again
    - Or reset database: drop and recreate `hotel_db`
+   - If you see `Unknown column hotels_rating.hotel_reply`, run `python manage.py migrate` to apply the latest migration
 
 ### Frontend Issues
 
@@ -418,26 +490,21 @@ The frontend sends sorting requests to the Django API using query parameters:
 
 ## Development Notes
 
-- **No Authentication**: This is a school project with public API access
+- **Authentication**: Token auth for users and hotels (booking/review requires user login; hotel reply requires hotel login)
 - **Plain CSS**: No CSS frameworks used, all styling is custom
 - **Responsive Design**: Mobile-friendly layouts using CSS Grid and Flexbox
 - **Error Handling**: Frontend includes loading and error states for better UX
+- **Security**: Ratings/Bookings are read-only via list endpoints; create via custom endpoints; cancellation window enforced (2 hours)
+- **Images**: Hotel images are URL-based and exposed via the `images` array with `image` as a fallback
 
 ## Next Steps (Optional Enhancements)
 
-- Add search functionality
-- Implement pagination
-- Add image upload for hotels
-- Create booking functionality
-- Add user authentication
-- Implement favorites/bookmarks
-- Add reviews and ratings system
+- Add payment gateway integration
+- Improve availability/overlap checks
+- Add file upload/storage for hotel images
+- Add notifications (email/SMS)
+- Add advanced filters (price range, amenities)
 
 ## License
 
 This project is created for educational purposes.
-
----
-
-**Happy Coding! 🏨**
-
